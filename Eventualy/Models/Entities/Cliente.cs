@@ -9,10 +9,10 @@ namespace Eventualy.WEB.Models.Entities
     public class Cliente
     {
         [Key]
-        public int ClienteId { get; set; }
+        public int ClienteId { get; set;}
 
 
-        [Required(ErrorMessage ="El nombre del cliente es requerido")]
+        [Required(ErrorMessage ="El nombre del cliente es requerido ")]
         [StringLength(30, ErrorMessage = "Debe contener entre 5 y 30 caracteres", MinimumLength =5)]
         [Display(Name = "Nombre del cliente")]
         public string Nombres { get; set; }
