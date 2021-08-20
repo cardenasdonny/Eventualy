@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <AssemblyName>Eventualy.WEB</AssemblyName>
-    <RootNamespace>Eventualy.WEB</RootNamespace>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
