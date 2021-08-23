@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models.Abstract;
+using Models.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,8 @@ namespace Eventualy
             services.AddDbContext<AppDbContext>(option =>
                 option.UseMySql(conexion, ServerVersion.AutoDetect(conexion))
             );
+            services.AddScoped<IClienteService, ClienteService >();
+            services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

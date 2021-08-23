@@ -2,12 +2,14 @@
 <h1>@ViewBag.Titulo</h1>
 <br />
 <form asp-action="Editar">
-  
+
+    <input type="hidden" asp-for="ClienteId" />
+    <input type="hidden" asp-for="Estado" />
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <div class="col-md-4">
             <label asp-for="Nombres" class="control-label"></label>
-            <input type="hidden" asp-for="ClienteId" />
             <input type="text" asp-for="Nombres" class="form-control" />
             <span asp-validation-for="Nombres" class="text-danger"></span>
         </div>

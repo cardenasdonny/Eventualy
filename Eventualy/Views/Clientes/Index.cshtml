@@ -32,7 +32,9 @@ else
                     <td>@cliente.Documento</td>
                     <td>@cliente.Estado</td>
                     <td>
-                        <a asp-action="Editar" asp-route-id="@cliente.ClienteId" ><i title="Editar" class="fas fa-edit"></i></a>                    
+                        <a class="text-success" asp-action="Detalle" asp-route-id="@cliente.ClienteId"><i title="Detalle" class="fas fa-search"></i></a> |
+                        <a asp-action="Editar" asp-route-id="@cliente.ClienteId"><i title="Editar" class="fas fa-edit"></i></a>
+                        <a class="text-danger" asp-action="Eliminar" onclick="return confirm('¿Está seguro de eliminar el cliente?')" asp-route-id="@cliente.ClienteId"><i title="Eliminar" class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

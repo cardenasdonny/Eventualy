@@ -1,0 +1,41 @@
+﻿@model Eventualy.WEB.Models.Entities.Cliente
+<h1>@ViewBag.Titulo</h1>
+<br />
+<form asp-action="Crear">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <label asp-for="Nombres" class="control-label"></label>
+            <br />
+            @Model.Nombres
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <label asp-for="TiposDocumento.Nombre" class="control-label"></label>
+            <br />
+            @Model.TiposDocumento.Nombre
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <label asp-for="Documento" class="control-label"></label>
+            <br />
+            @Model.Documento
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <label asp-for="Email" class="control-label"></label>
+            <br />
+            @Model.Email
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <a class="btn btn-success" asp-action="Index">Volver</a>
+        </div>
+    </div>
+</form>
+<script src="~/js/site.js"></script>
+@await Html.PartialAsync("_ValidationScriptsPartial")
