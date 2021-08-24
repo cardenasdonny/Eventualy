@@ -1,4 +1,6 @@
-using Eventualy.WEB.Models.DAL;
+using Eventualy.Business.Abstract;
+using Eventualy.Business.Services;
+using Eventualy.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Models.Abstract;
-using Models.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;

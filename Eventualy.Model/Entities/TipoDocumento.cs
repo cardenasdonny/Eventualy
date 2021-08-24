@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Eventualy.WEB.Models.Entities
+namespace Eventualy.Model.Entities
 {
-    public class Producto
+    public class TipoDocumento
     {
         [Key]
-        public int ProductoId { get; set; }
+        public int TipoDocumentoId { get; set; }
         public string Nombre { get; set; }
-        public decimal Precio { get; set; }
-        public int Cantidad { get; set; }
-
+        public virtual List<Cliente> Clientes { get; set; }
     }
 }

@@ -1,8 +1,7 @@
-﻿using Eventualy.WEB.Models.Entities;
+﻿using Eventualy.Business.Abstract;
+using Eventualy.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Models.Abstract;
-using Models.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,7 +145,8 @@ namespace Controllers
             {
                 try
                 {
-                    _clienteService.Eliminar();
+                    var cliente = await _clienteService.ObtenerClientePorId(id);                   
+                    _clienteService.Eliminar(cliente);
                     var eliminar = await _clienteService.GuardarCambios();
                     if (eliminar)
                         return RedirectToAction("Index");
@@ -155,7 +155,6 @@ namespace Controllers
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }

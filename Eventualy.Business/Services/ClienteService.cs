@@ -1,15 +1,16 @@
-﻿using Eventualy.WEB.Models.DAL;
-using Eventualy.WEB.Models.Entities;
+﻿using Eventualy.Business.Abstract;
+using Eventualy.DAL;
+using Eventualy.Model.Entities;
 using Microsoft.EntityFrameworkCore;
-using Models.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Business
+namespace Eventualy.Business.Services
 {
-    public class ClienteService:IClienteService
+    public class ClienteService : IClienteService
     {
         private readonly AppDbContext _context;
 
@@ -19,7 +20,7 @@ namespace Models.Business
         }
         public async Task<IEnumerable<Cliente>> ObtenerClientes()
         {
-            return await _context.Clientes.Where(x=>x.Estado==true).Include(x=>x.TiposDocumento).ToListAsync();
+            return await _context.Clientes.Where(x => x.Estado == true).Include(x => x.TiposDocumento).ToListAsync();
         }
 
         public void Crear(Cliente cliente)
@@ -27,7 +28,7 @@ namespace Models.Business
             if (cliente == null)
                 throw new ArgumentNullException(nameof(cliente));
             cliente.Estado = true;
-            _context.Add(cliente);            
+            _context.Add(cliente);
         }
 
         public async Task<Cliente> ObtenerClientePorId(int? id)
@@ -35,31 +36,30 @@ namespace Models.Business
             if (id == null)
                 throw new ArgumentNullException(nameof(id));
 
-           return await _context.Clientes.Include(x=>x.TiposDocumento).FirstOrDefaultAsync(x=>x.ClienteId==id);
+            return await _context.Clientes.Include(x => x.TiposDocumento).FirstOrDefaultAsync(x => x.ClienteId == id);
         }
 
         public void Editar(Cliente cliente)
         {
             if (cliente == null)
-                throw new ArgumentNullException(nameof(cliente));           
+                throw new ArgumentNullException(nameof(cliente));
             _context.Update(cliente);
         }
 
-        public async Task Eliminar(int? id)
+        public void Eliminar(Cliente cliente)
         {
-            if (id == null)
-                throw new ArgumentNullException(nameof(id));
-            var cliente = await ObtenerClientePorId(id);
-            if(cliente!=null)
+            if (cliente == null)
+                throw new ArgumentNullException(nameof(cliente));
+            if (cliente != null)
                 _context.Remove(cliente);
-           
+
         }
 
         public async Task<bool> GuardarCambios()
         {
             return await _context.SaveChangesAsync() > 0;// si el resultado es mayor a 0, me devuelve un true (todo salió bien)
         }
-      
+
 
     }
 }

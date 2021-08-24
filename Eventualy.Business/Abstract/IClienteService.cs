@@ -1,10 +1,11 @@
-﻿using Eventualy.WEB.Models.Entities;
+﻿using Eventualy.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Abstract
+namespace Eventualy.Business.Abstract
 {
     public interface IClienteService
     {
@@ -13,6 +14,6 @@ namespace Models.Abstract
         Task<bool> GuardarCambios();
         Task<Cliente> ObtenerClientePorId(int? id);
         void Editar(Cliente cliente);
-        Task Eliminar(int? id);
+        void Eliminar(Cliente cliente);
     }
 }
