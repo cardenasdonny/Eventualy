@@ -1,43 +1,73 @@
 ﻿@model IEnumerable<Eventualy.Model.Entities.Cliente>
+@section Styles{
 
-<h1>@ViewBag.Titulo</h1>
-
-@if (Model.Count() == 0)
-{
-    <p>No existen clientes</p>
 }
-else
-{
-    <a asp-action="Crear" class="btn btn-primary">Crear cliente</a>
-    <br />
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Nombres)</th>
-                <th>@Html.DisplayNameFor(model => model.Email)</th>
-                <th>@Html.DisplayNameFor(model => model.TipoDocumentoId)</th>
-                <th>@Html.DisplayNameFor(model => model.Documento)</th>
-                <th>@Html.DisplayNameFor(model => model.Estado)</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cliente in Model)
+<div class="content">
+    <div class="container-fluid">
+        <div class="table-responsive">
+
+            <div class="col-md-5">
+                <h2>Gestión de <b>@ViewBag.Titulo</b></h2>
+            </div>
+            <br />
+            <div class="col-md-7">
+                <a asp-action="Crear" class="btn btn-success">Crear Cliente </a>
+            </div>
+            @if (Model.Count() == 0)
             {
-                <tr>
-                    <td>@cliente.Nombres</td>
-                    <td>@cliente.Email</td>
-                    <td>@cliente.TiposDocumento.Nombre</td>
-                    <td>@cliente.Documento</td>
-                    <td>@cliente.Estado</td>
-                    <td>
-                        <a class="text-success" asp-action="Detalle" asp-route-id="@cliente.ClienteId"><i title="Detalle" class="fas fa-search"></i></a> |
-                        <a asp-action="Editar" asp-route-id="@cliente.ClienteId"><i title="Editar" class="fas fa-edit"></i></a>
-                        <a class="text-danger" asp-action="Eliminar" onclick="return confirm('¿Está seguro de eliminar el cliente?')" asp-route-id="@cliente.ClienteId"><i title="Eliminar" class="fas fa-trash-alt"></i></a>
-                    </td>
-                </tr>
+                <p>No existen clientes</p>
             }
-        </tbody>
-    </table>
+            else
+            {
+
+                
+                <br />
+                <table class="table" id="tabla">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Nombres)</th>
+                            <th>@Html.DisplayNameFor(model => model.Email)</th>
+                            <th>@Html.DisplayNameFor(model => model.TipoDocumentoId)</th>
+                            <th>@Html.DisplayNameFor(model => model.Documento)</th>
+                            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cliente in Model)
+                        {
+                            <tr>
+                                <td>@cliente.Nombres</td>
+                                <td>@cliente.Email</td>
+                                <td>@cliente.TiposDocumento.Nombre</td>
+                                <td>@cliente.Documento</td>
+                                <td>@cliente.Estado</td>
+                                <td>
+                                    <a class="text-success" asp-action="Detalle" asp-route-id="@cliente.ClienteId"><i title="Detalle" class="fas fa-search"></i></a> |
+                                    <a asp-action="Editar" asp-route-id="@cliente.ClienteId"><i title="Editar" class="fas fa-edit"></i></a>
+                                    <a class="text-danger" asp-action="Eliminar" onclick="return confirm('¿Está seguro de eliminar el cliente?')" asp-route-id="@cliente.ClienteId"><i title="Eliminar" class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        </div>        
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script src="~/js/tabla.js"></script>
+    <script>
+        @if(TempData["Accion"]!=null && TempData["Accion"].ToString().Equals("Guardar")) {
+            <Text>
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.notify('@TempData["Mensaje"]', 'success', 5, function () {                
+            });
+            </text>
+        }
+    </script>
 }

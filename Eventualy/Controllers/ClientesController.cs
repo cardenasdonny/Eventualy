@@ -21,6 +21,7 @@ namespace Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewBag.Titulo = "Clientes";
             var clientes = await _clienteService.ObtenerClientes();
             return View(clientes);
         }
@@ -48,7 +49,11 @@ namespace Controllers
                     _clienteService.Crear(cliente);
                     var guardar = await _clienteService.GuardarCambios();
                     if (guardar)
+                    {
+                        TempData["Accion"] = "Guardar";
+                        TempData["Mensaje"] = $"Se creó el usuario {cliente.Nombres}";
                         return RedirectToAction("Index");
+                    }
                     else
                         return NotFound();
 
