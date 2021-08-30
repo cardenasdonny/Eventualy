@@ -15,6 +15,14 @@ namespace Eventualy.DAL
         {
 
         }
+        //Esto lo utilizamos para llenar las tablas (seeder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();
+
+        }
+
         //DbSet o representación de nuestras tablas
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<TipoDocumento> TiposDocumento { get; set; }

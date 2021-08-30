@@ -52,6 +52,36 @@ namespace Eventualy.DAL.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.InsertData(
+                table: "TiposDocumento",
+                columns: new[] { "TipoDocumentoId", "Nombre" },
+                values: new object[] { 1, "CC" });
+
+            migrationBuilder.InsertData(
+                table: "TiposDocumento",
+                columns: new[] { "TipoDocumentoId", "Nombre" },
+                values: new object[] { 2, "TI" });
+
+            migrationBuilder.InsertData(
+                table: "TiposDocumento",
+                columns: new[] { "TipoDocumentoId", "Nombre" },
+                values: new object[] { 3, "CE" });
+
+            migrationBuilder.InsertData(
+                table: "Clientes",
+                columns: new[] { "ClienteId", "Documento", "Email", "Estado", "Nombres", "TipoDocumentoId" },
+                values: new object[] { 1, "72284820", "cardenasdonny@gmail.com", true, "Dony Cardenas", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Clientes",
+                columns: new[] { "ClienteId", "Documento", "Email", "Estado", "Nombres", "TipoDocumentoId" },
+                values: new object[] { 2, "77889966", "sarasofi@gmail.com", true, "Sara Sofia", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Clientes",
+                columns: new[] { "ClienteId", "Documento", "Email", "Estado", "Nombres", "TipoDocumentoId" },
+                values: new object[] { 3, "998822", "samuel@gmail.com", true, "Samuel", 3 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Clientes_TipoDocumentoId",
                 table: "Clientes",

@@ -6,17 +6,31 @@
     <title>@ViewData["Title"] - Eventualy</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="~/adminlte/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/adminlte/dist/css/adminlte.min.css">
-    <link href="~/css/admin.css" rel="stylesheet" />
+    <!--Datatables-->
     @*<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">*@
+
     <link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <!--Archivo para stilos del tema-->
+    <link href="~/css/admin.css" rel="stylesheet" />
+
+    <!--Alertify-->
+    <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />-->
+    <!-- Bootstrap theme -->
+    <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />-->
     <link href="~/lib/AlertifyJS/css/alertify.css" rel="stylesheet" />
     <link href="~/lib/AlertifyJS/css/themes/bootstrap.css" rel="stylesheet" />
-    @RenderSection("Styles", required: false);
+    
+
+
+    @await RenderSectionAsync("Styles", required: false)
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -25,29 +39,56 @@
         <partial name="_Sidebar" />
         <div class="content-wrapper">
             <main role="main" class="content">
-                <div class="container-fluid">               
+                <div class="container-fluid">
                     @RenderBody()
-                </div>                
+                </div>
             </main>
         </div>
         <footer class="border-top footer text-muted">
             <div class="container">
                 <partial name="_Footer" />
             </div>
-
         </footer>
 
     </div>
-    <!-- REQUIRED SCRIPTS -->
+
+
+    <!-- MODAL GLOBAL -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="form-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- jQuery -->
     <script src="~/adminlte/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
     <!-- Bootstrap 4 -->
     <script src="~/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="~/adminlte/dist/js/adminlte.min.js"></script>
+    <script src="~/adminlte/dist/js/adminlte.js"></script>    
+    <!--Datatables-->
     @*<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>*@
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="~/lib/AlertifyJS/alertify.js"></script>
+
+    <!--Alertify-->
+    @*<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>*@
+
+    <!--Scripts generales del proyecto-->
+    <script src="~/js/site.js"></script>
+
+    <script src="~/lib/AlertifyJS/alertify.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

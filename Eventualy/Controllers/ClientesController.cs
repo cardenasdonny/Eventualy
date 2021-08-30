@@ -1,5 +1,6 @@
 ﻿using Eventualy.Business.Abstract;
 using Eventualy.Model.Entities;
+using Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -27,11 +28,23 @@ namespace Controllers
         }
 
         [HttpGet]
+        [NoDirectAccess]
         public async Task<IActionResult> Crear()
-        {
-            ViewBag.Titulo = "Crear cliente";
-            ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
-            return View();
+        {         
+            
+            try
+            {
+                ViewBag.Titulo = "Crear cliente";
+                ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
+                return View();
+
+            }
+            catch (Exception)
+            {
+                return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
+            }
+            
+
         }
 
         [HttpPost]
@@ -50,23 +63,24 @@ namespace Controllers
                     var guardar = await _clienteService.GuardarCambios();
                     if (guardar)
                     {
-                        TempData["Accion"] = "Guardar";
-                        TempData["Mensaje"] = $"Se creó el usuario {cliente.Nombres}";
-                        return RedirectToAction("Index");
+                        //TempData["Accion"] = "Guardar";
+                        //TempData["Mensaje"] = $"Se creó el usuario {cliente.Nombres}";
+                        //return RedirectToAction("Index");
+                        return Json(new { isValid = true, operacion = "crear" });
                     }
                     else
-                        return NotFound();
+                        return Json(new { isValid = false, tipoError = "error", error = "Error al crear el registro" });
 
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new { isValid = false, tipoError = "error", error = "Error al crear el registro" });
                 }
             }
             // si el modelo tiene errores en las validaciones
             ViewBag.Titulo = "Crear cliente";
             ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
-            return View(cliente);
+            return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Crear", cliente) });
         }
 
         [HttpGet]
@@ -119,7 +133,7 @@ namespace Controllers
         public async Task<IActionResult> Editar(int? id, Cliente cliente)
         {
             if (id != cliente.ClienteId)
-                return NotFound();
+                return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
             if (ModelState.IsValid)
             {
                 try
@@ -127,20 +141,20 @@ namespace Controllers
                     _clienteService.Editar(cliente);
                     var editar = await _clienteService.GuardarCambios();
                     if (editar)
-                        return RedirectToAction("Index");
+                        return Json(new { isValid = true, operacion = "editar" });
                     else
-                        return NotFound();
+                        return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
                 }
                 catch (Exception)
                 {
 
-                    throw;
+                    return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
                 }
             }
             // si el modelo tiene errores en las validaciones
             ViewBag.Titulo = "Editar cliente";
             ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
-            return View(cliente);
+            return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Editar", cliente) });
         }
 
         [HttpGet]

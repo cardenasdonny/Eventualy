@@ -48,6 +48,35 @@ namespace Eventualy.DAL.Migrations
                     b.HasIndex("TipoDocumentoId");
 
                     b.ToTable("Clientes");
+
+                    b.HasData(
+                        new
+                        {
+                            ClienteId = 1,
+                            Documento = "72284820",
+                            Email = "cardenasdonny@gmail.com",
+                            Estado = true,
+                            Nombres = "Dony Cardenas",
+                            TipoDocumentoId = 1
+                        },
+                        new
+                        {
+                            ClienteId = 2,
+                            Documento = "77889966",
+                            Email = "sarasofi@gmail.com",
+                            Estado = true,
+                            Nombres = "Sara Sofia",
+                            TipoDocumentoId = 2
+                        },
+                        new
+                        {
+                            ClienteId = 3,
+                            Documento = "998822",
+                            Email = "samuel@gmail.com",
+                            Estado = true,
+                            Nombres = "Samuel",
+                            TipoDocumentoId = 3
+                        });
                 });
 
             modelBuilder.Entity("Eventualy.Model.Entities.TipoDocumento", b =>
@@ -62,6 +91,23 @@ namespace Eventualy.DAL.Migrations
                     b.HasKey("TipoDocumentoId");
 
                     b.ToTable("TiposDocumento");
+
+                    b.HasData(
+                        new
+                        {
+                            TipoDocumentoId = 1,
+                            Nombre = "CC"
+                        },
+                        new
+                        {
+                            TipoDocumentoId = 2,
+                            Nombre = "TI"
+                        },
+                        new
+                        {
+                            TipoDocumentoId = 3,
+                            Nombre = "CE"
+                        });
                 });
 
             modelBuilder.Entity("Eventualy.Model.Entities.Cliente", b =>

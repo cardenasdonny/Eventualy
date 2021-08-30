@@ -5,13 +5,13 @@
 <div class="content">
     <div class="container-fluid">
         <div class="table-responsive">
-
+            <br />
             <div class="col-md-5">
                 <h2>Gestión de <b>@ViewBag.Titulo</b></h2>
             </div>
             <br />
             <div class="col-md-7">
-                <a asp-action="Crear" class="btn btn-success">Crear Cliente </a>
+                <a onclick="mostrarModal('@Url.Action("Crear","Clientes",null,Context.Request.Scheme)','Crear cliente')" class="btn btn-success">Crear Cliente </a>
             </div>
             @if (Model.Count() == 0)
             {
@@ -20,7 +20,7 @@
             else
             {
 
-                
+
                 <br />
                 <table class="table" id="tabla">
                     <thead>
@@ -44,7 +44,7 @@
                                 <td>@cliente.Estado</td>
                                 <td>
                                     <a class="text-success" asp-action="Detalle" asp-route-id="@cliente.ClienteId"><i title="Detalle" class="fas fa-search"></i></a> |
-                                    <a asp-action="Editar" asp-route-id="@cliente.ClienteId"><i title="Editar" class="fas fa-edit"></i></a>
+                                    <a href="javascript:mostrarModal('@Url.Action("Editar","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)','Editar cliente')" ><i title="Editar" class="fas fa-edit"></i></a>
                                     <a class="text-danger" asp-action="Eliminar" onclick="return confirm('¿Está seguro de eliminar el cliente?')" asp-route-id="@cliente.ClienteId"><i title="Eliminar" class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
@@ -53,19 +53,19 @@
                 </table>
             }
 
-        </div>        
+        </div>
     </div>
 </div>
 
 
 @section Scripts{
-
+    <script src="~/js/site.js"></script>
     <script src="~/js/tabla.js"></script>
     <script>
         @if(TempData["Accion"]!=null && TempData["Accion"].ToString().Equals("Guardar")) {
             <Text>
                 alertify.set('notifier', 'position', 'top-right');
-                alertify.notify('@TempData["Mensaje"]', 'success', 5, function () {                
+                alertify.notify('@TempData["Mensaje"]', 'success', 5, function () {
             });
             </text>
         }
