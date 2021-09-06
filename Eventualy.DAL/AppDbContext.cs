@@ -1,4 +1,6 @@
 ﻿using Eventualy.Model.Entities;
+using Eventualy.Model.Entities.Usuarios;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Eventualy.DAL
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         //opciones como la cadena de conexión
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -26,6 +28,7 @@ namespace Eventualy.DAL
         //DbSet o representación de nuestras tablas
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<TipoDocumento> TiposDocumento { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
     }
 }

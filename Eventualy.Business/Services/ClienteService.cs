@@ -20,7 +20,7 @@ namespace Eventualy.Business.Services
         }
         public async Task<IEnumerable<Cliente>> ObtenerClientes()
         {
-            return await _context.Clientes.Where(x => x.Estado == true).Include(x => x.TiposDocumento).ToListAsync();
+            return await _context.Clientes.Include(x => x.TiposDocumento).ToListAsync();
         }
 
         public void Crear(Cliente cliente)

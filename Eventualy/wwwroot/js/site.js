@@ -1,5 +1,35 @@
 ﻿$(document).ready(function () {
 
+    cambiarEstado = (url) => {
+        /*alert(url);*/
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (res) {
+                alertify.set('notifier', 'position', 'top-right');
+                if (res.isValid) {
+                    location.reload();
+
+                    //alertify.notify("Cambio de estado exitoso", 'success', 0, function () {
+
+                    //    location.reload();
+                    //})
+
+                } else {
+                    if (res.tipoError == "warning")
+                        alertify.alert('Cambiar estado', '¡No se puede cambiar el estado del usuario actual!', function () { location.reload(); });
+                    else
+                        alertify.error("Error al cambiar el estado");
+                }
+            }
+        })
+    }
+
+
+
+
+
+
     mostrarModal = (url, title) => {
         //alert("Ingresa a la función");
         //alert(url);
@@ -26,9 +56,9 @@
 
 
     jQueryAjaxPost = (form, titulo, mensaje) => {
-        alert(form);
-        alert(titulo);
-        alert(mensaje);
+        //alert(form);
+        //alert(titulo);
+        //alert(mensaje);
         alertify.confirm(titulo, mensaje,
             function () {
                 try {
@@ -86,12 +116,5 @@
         //to prevent default form submit event
         return false;
     }
-
-
-
-
-
-
-
 
 });

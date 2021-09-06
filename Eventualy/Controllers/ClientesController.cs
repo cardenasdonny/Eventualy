@@ -94,15 +94,15 @@ namespace Controllers
                     if (cliente != null)
                         return View(cliente);
                     else
-                        return NotFound();
+                        return Json(new { isValid = false, tipoError = "error", mensaje = "Error al consultar el registro" });
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
                 }
 
             }
-            return NotFound();
+            return Json(new { isValid = false, tipoError = "error", mensaje = "Error al consultar el registro" });
         }
         [HttpGet]
         public async Task<IActionResult> Editar(int? id)
@@ -179,5 +179,42 @@ namespace Controllers
             }
             return NotFound();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CambiarEstado(int? id)
+        {
+            if (id != null)
+            {
+                try
+                {
+                    var cliente = await _clienteService.ObtenerClientePorId(id.Value);
+                    if (cliente != null)
+                    {
+                        //cliente.Estado = !cliente.Estado;
+
+                        if (cliente.Estado)
+                            cliente.Estado = false;
+                        else
+                            cliente.Estado = true;
+                        _clienteService.Editar(cliente);
+                        var editar = await _clienteService.GuardarCambios();
+                        if(editar)
+                            return Json(new { isValid = true});
+
+
+                    }
+                         
+                    else
+                        return Json(new { isValid = false});
+                }
+                catch (Exception)
+                {
+                    return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
+                }
+
+            }
+            return Json(new { isValid = false, tipoError = "error", mensaje = "Error al consultar el registro" });
+        }
+
     }
 }

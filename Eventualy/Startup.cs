@@ -48,6 +48,7 @@ namespace Eventualy
             );
             services.AddScoped<IClienteService, ClienteService >();
             services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
+            //services.AddScoped<IUsuarioService, UsuarioService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

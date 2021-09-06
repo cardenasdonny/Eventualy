@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Eventualy.DAL\Eventualy.DAL.csproj" />
+    <ProjectReference Include="..\Eventualy.Model\Eventualy.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@
             <div class="col-md-7">
                 <a onclick="mostrarModal('@Url.Action("Crear","Clientes",null,Context.Request.Scheme)','Crear cliente')" class="btn btn-success">Crear Cliente </a>
             </div>
-            @if (Model.Count() == 0)
+            @if (Model == null || Model.Count() == 0)
             {
                 <p>No existen clientes</p>
             }
@@ -41,12 +41,37 @@
                                 <td>@cliente.Email</td>
                                 <td>@cliente.TiposDocumento.Nombre</td>
                                 <td>@cliente.Documento</td>
-                                <td>@cliente.Estado</td>
-                                <td>
-                                    <a class="text-success" asp-action="Detalle" asp-route-id="@cliente.ClienteId"><i title="Detalle" class="fas fa-search"></i></a> |
-                                    <a href="javascript:mostrarModal('@Url.Action("Editar","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)','Editar cliente')" ><i title="Editar" class="fas fa-edit"></i></a>
-                                    <a class="text-danger" asp-action="Eliminar" onclick="return confirm('¿Está seguro de eliminar el cliente?')" asp-route-id="@cliente.ClienteId"><i title="Eliminar" class="fas fa-trash-alt"></i></a>
-                                </td>
+                                @if (cliente.Estado)
+                                {
+
+
+                                    <td><span class="badge badge-success">Habilitado</span></td>
+
+                                }
+                                else
+                                {
+                                    <td><span class="badge badge-success">Deshabilitado</span></td>
+
+                                }
+
+                            <td>
+                                <a class="text-success" href="javascript:mostrarModal('@Url.Action("Detalle","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)','Detalle cliente')"><i title="Detalle" class="fas fa-search"></i></a> |
+
+                                <a href="javascript:mostrarModal('@Url.Action("Editar","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)','Editar cliente')"><i title="Editar" class="fas fa-edit"></i></a> |
+
+                                @if (cliente.Estado)
+                                {
+                                    <a class="text-danger" href="javascript:cambiarEstado('@Url.Action("CambiarEstado","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)')"><i title="Deshabilitar" class="fas fa-toggle-on"></i> </a>
+
+                                }
+                                else
+                                {
+                                    <a class="text-secondary" href="javascript:cambiarEstado('@Url.Action("CambiarEstado","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)')"><i title="Deshabilitar" class="fas fa-toggle-off"></i> </a>
+
+
+                                }
+
+                            </td>
                             </tr>
                         }
                     </tbody>
