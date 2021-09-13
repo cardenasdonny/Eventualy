@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Eventualy.Business.Dtos.Usuarios.UsuarioResumenDto>
+
+@section Styles{
+
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <br />
+            <div class="col-md-5">
+                <h2>Gestión de <b>@ViewBag.Titulo</b></h2>
+            </div>
+            <br />
+            <div class="col-md-7">
+                <a onclick="mostrarModal('@Url.Action("Crear","Usuarios",null,Context.Request.Scheme)','Crear usuario')" class="btn btn-success">Crear usuario </a>
+            </div>
+            @if (Model == null || Model.Count() == 0)
+            {
+                <p>No existen usuarios</p>
+            }
+            else
+            {
+
+
+                <br />
+                <table class="table" id="tabla">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.UsuarioId)</th>
+                            <th>@Html.DisplayNameFor(model => model.Correo)</th>
+                            <th>@Html.DisplayNameFor(model => model.Estado)</th>                            
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var usuario in Model)
+                        {
+                            <tr>
+                                <td>@usuario.UsuarioId</td>
+                                <td>@usuario.Correo</td>                                
+                                @if (usuario.Estado.Equals("Habilitado"))
+                                {
+                                    <td><span class="badge badge-success">Habilitado</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge badge-success">Deshabilitado</span></td>
+
+                                }
+
+                                <td>
+                                    <a class="text-success" href="javascript:mostrarModal('@Url.Action("Detalle","Usuarios",new {id=usuario.UsuarioId},Context.Request.Scheme)','Detalle usuario')"><i title="Detalle" class="fas fa-search"></i></a> |
+
+                                    <a href="javascript:mostrarModal('@Url.Action("Editar","Usuario",new {id=usuario.UsuarioId},Context.Request.Scheme)','Editar usuario')"><i title="Editar" class="fas fa-edit"></i></a> |
+
+                                    @if (usuario.Estado.Equals("Habilitado"))
+                                    {
+                                        <a class="text-danger" href="javascript:cambiarEstado('@Url.Action("CambiarEstado","Usuarios",new {id=usuario.UsuarioId},Context.Request.Scheme)')"><i title="Deshabilitar" class="fas fa-toggle-on"></i> </a>
+
+                                    }
+                                    else
+                                    {
+                                        <a class="text-secondary" href="javascript:cambiarEstado('@Url.Action("CambiarEstado","Usuarios",new {id=usuario.UsuarioId},Context.Request.Scheme)')"><i title="Deshabilitar" class="fas fa-toggle-off"></i> </a>
+
+
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+    <script src="~/js/tabla.js"></script>
+    <script>
+        @if(TempData["Accion"]!=null && TempData["Accion"].ToString().Equals("Guardar")) {
+            <Text>
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.notify('@TempData["Mensaje"]', 'success', 5, function () {
+            });
+            </text>
+        }
+    </script>
+}
+

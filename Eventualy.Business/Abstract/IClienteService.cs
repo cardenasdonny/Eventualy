@@ -1,4 +1,5 @@
-﻿using Eventualy.Model.Entities;
+﻿using Eventualy.Business.Dtos.Clientes;
+using Eventualy.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,13 @@ namespace Eventualy.Business.Abstract
 {
     public interface IClienteService
     {
-        Task<IEnumerable<Cliente>> ObtenerClientes();
-        void Crear(Cliente cliente);
+        Task<IEnumerable<ClienteResumenDto>> ObtenerClientes();
+        Task<ClienteDetalleDto> ObtenerClienteDetalleDto(int? id);
+        Task<ClienteDto> ObtenerClienteDtoPorId(int? id);
+        void Crear(ClienteDto clienteDto);
         Task<bool> GuardarCambios();
         Task<Cliente> ObtenerClientePorId(int? id);
-        void Editar(Cliente cliente);
+        void Editar(ClienteDto clienteDto);
         void Eliminar(Cliente cliente);
     }
 }

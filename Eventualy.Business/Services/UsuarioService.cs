@@ -1,4 +1,5 @@
 ﻿using Eventualy.Business.Abstract;
+using Eventualy.Business.Dtos.Usuarios;
 using Eventualy.Model.Entities.Usuarios;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -20,33 +21,50 @@ namespace Eventualy.Business.Services
             _signInManager = signInManager;
         }
 
-        //public async Task<string> CrearUsuario(UsuarioRegistrarDto UsuarioRegistrarDto)
-        //{
-        //    if (UsuarioRegistrarDto == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(UsuarioRegistrarDto));
-        //    }
-        //    Usuario usuario = new()
-        //    {
-        //        UserName = UsuarioRegistrarDto.Email,
-        //        Email = UsuarioRegistrarDto.Email,
-        //        Nombres = UsuarioRegistrarDto.Nombres,
-        //        Apellidos = UsuarioRegistrarDto.Apellidos,
-        //        Estado = true
-        //    };
+        public async Task<UsuarioResumenDto>ObtenerUsuarioDtoPorEmail(string email)
+        {
+            if (email == null)
+                throw new ArgumentNullException(nameof(email));
+            var usuario = await _userManager.FindByEmailAsync(email);
+            if (usuario != null)
+            {
+                UsuarioResumenDto usuarioResumenDto = new()
+                {
+                    UsuarioId = usuario.Id,
+                    Correo = usuario.Email,
+                    Estado = usuario.Estado?"Habilitado":"Deshabilitado",
+                    Rol = "N/A"
+                };
+                return usuarioResumenDto;
+            }
+            return null;
+        } 
 
-        //    var resultado = await _userManager.CreateAsync(usuario, UsuarioRegistrarDto.Password);
+
+        public async Task<string> CrearUsuario(UsuarioDto usuarioDto)
+        {
+            if (usuarioDto == null)
+            {
+                throw new ArgumentNullException(nameof(usuarioDto));
+            }
+            Usuario usuario = new()
+            {
+                UserName = usuarioDto.Email,
+                Email = usuarioDto.Email,                
+                Estado = true
+            };
+            var resultado = await _userManager.CreateAsync(usuario, usuarioDto.Password);
 
 
-        //    if (resultado.Errors.Any())
-        //        return "ErrorPassword";
+            if (resultado.Errors.Any())
+                return "ErrorPassword";
 
-        //    if (resultado.Succeeded)
-        //    {
-        //        return usuario.Id;
-        //    }
-        //    return null;
+            if (resultado.Succeeded)
+            {
+                return usuario.Id;
+            }
+            return null;
 
-        //}
+        }
     }
 }

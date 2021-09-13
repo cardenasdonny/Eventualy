@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Eventualy.Model.Entities.Cliente>
+﻿@model IEnumerable<Eventualy.Business.Dtos.Clientes.ClienteResumenDto>
 @section Styles{
 
 }
@@ -27,7 +27,7 @@
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.Nombres)</th>
                             <th>@Html.DisplayNameFor(model => model.Email)</th>
-                            <th>@Html.DisplayNameFor(model => model.TipoDocumentoId)</th>
+                            <th>@Html.DisplayNameFor(model => model.TipoDocumento)</th>
                             <th>@Html.DisplayNameFor(model => model.Documento)</th>
                             <th>@Html.DisplayNameFor(model => model.Estado)</th>
                             <th>Acciones</th>
@@ -39,9 +39,9 @@
                             <tr>
                                 <td>@cliente.Nombres</td>
                                 <td>@cliente.Email</td>
-                                <td>@cliente.TiposDocumento.Nombre</td>
+                                <td>@cliente.TipoDocumento</td>
                                 <td>@cliente.Documento</td>
-                                @if (cliente.Estado)
+                                @if (cliente.Estado.Equals("Habilitado"))
                                 {
 
 
@@ -59,7 +59,7 @@
 
                                 <a href="javascript:mostrarModal('@Url.Action("Editar","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)','Editar cliente')"><i title="Editar" class="fas fa-edit"></i></a> |
 
-                                @if (cliente.Estado)
+                                @if (cliente.Estado.Equals("Habilitado"))
                                 {
                                     <a class="text-danger" href="javascript:cambiarEstado('@Url.Action("CambiarEstado","Clientes",new {id=cliente.ClienteId},Context.Request.Scheme)')"><i title="Deshabilitar" class="fas fa-toggle-on"></i> </a>
 

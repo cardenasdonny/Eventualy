@@ -8,6 +8,7 @@ namespace Eventualy.Business.Dtos.Clientes
 {
     public class ClienteResumenDto
     {
+        public int ClienteId { get; set; }
         public string Nombres { get; set; }
         public string Email { get; set; }
         public string Documento { get; set; }

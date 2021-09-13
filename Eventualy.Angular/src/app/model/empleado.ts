@@ -5,4 +5,6 @@ export interface Empleado {
   Documento:string;
   Estado:boolean;
   TipoDocumentoId:number;
+  Edad:number;
+
 }

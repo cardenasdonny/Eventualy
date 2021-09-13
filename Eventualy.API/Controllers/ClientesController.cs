@@ -21,22 +21,22 @@ namespace Eventualy.API.Controllers
             _clienteService = clienteService;
             _tipoDocumentoService = tipoDocumentoService;
         }
-        [HttpGet]
-        public async Task<IEnumerable<Cliente>> ObtenerClientes()
-        {
-            try
-            {
-                var empleados = await _clienteService.ObtenerClientes();
-                return empleados ;
+        //[HttpGet]
+        //public async Task<IEnumerable<Cliente>> ObtenerClientes()
+        //{
+        //    try
+        //    {
+        //        var empleados = await _clienteService.ObtenerClientes();
+        //        return empleados ;
 
-            }
-            catch (Exception)
-            {
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
+        //        throw;
+        //    }
 
-        }
+        //}
 
         // GET: api/Empleados/5
         [HttpGet("{id}")]

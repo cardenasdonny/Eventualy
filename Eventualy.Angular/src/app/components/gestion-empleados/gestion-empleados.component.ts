@@ -9,7 +9,7 @@ export class GestionEmpleadosComponent implements OnInit {
 
   constructor() { }
 
+
   ngOnInit(): void {
   }
-
 }

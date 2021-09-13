@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-
+import { FormBuilder } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GestionEmpleadoService {
 
-  constructor() { }
+  constructor(private formBuilder:FormBuilder) { }
+ 
 }

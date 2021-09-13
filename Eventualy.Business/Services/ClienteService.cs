@@ -1,4 +1,5 @@
 ﻿using Eventualy.Business.Abstract;
+using Eventualy.Business.Dtos.Clientes;
 using Eventualy.DAL;
 using Eventualy.Model.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -18,17 +19,102 @@ namespace Eventualy.Business.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<Cliente>> ObtenerClientes()
+        public async Task<IEnumerable<ClienteResumenDto>> ObtenerClientes()
         {
-            return await _context.Clientes.Include(x => x.TiposDocumento).ToListAsync();
+            List<ClienteResumenDto> listaClienteResumenDto = new();
+            var clientes = await _context.Clientes.Include(x => x.TiposDocumento).ToListAsync();
+            clientes.ForEach(cliente =>
+            {
+                ClienteResumenDto clienteResumenDto = new()
+                {
+                    ClienteId = cliente.ClienteId,
+                    Nombres = cliente.Nombres,
+                    Documento = cliente.Documento,
+                    Email = cliente.Email,
+                    TipoDocumento = cliente.TiposDocumento.Nombre,
+                    Estado = ObtenerEstadoNombre(cliente.Estado)
+                };
+                listaClienteResumenDto.Add(clienteResumenDto);
+            });
+            return listaClienteResumenDto;
         }
 
-        public void Crear(Cliente cliente)
+        private static string ObtenerEstadoNombre(bool estado)
         {
-            if (cliente == null)
-                throw new ArgumentNullException(nameof(cliente));
-            cliente.Estado = true;
+            if (estado)
+                return "Habilitado";
+            else
+                return "Deshabilitado";
+        }
+
+        public void Crear(ClienteDto clienteDto)
+        {
+            if (clienteDto == null)
+                throw new ArgumentNullException(nameof(clienteDto));
+            clienteDto.Estado = true;
+
+            Cliente cliente = new()
+            {
+                ClienteId = clienteDto.ClienteId,
+                Nombres = clienteDto.Nombres,
+                Documento = clienteDto.Documento,
+                TipoDocumentoId = clienteDto.TipoDocumentoId.Value,
+                Edad = clienteDto.Edad.Value,
+                Email = clienteDto.Email,
+                Estado = clienteDto.Estado,
+                Cumpleanios = clienteDto.Cumpleanios
+            };
+
             _context.Add(cliente);
+        }
+        public async Task<ClienteDetalleDto> ObtenerClienteDetalleDto(int? id)
+        {            
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            var cliente = await _context.Clientes.Include(x => x.TiposDocumento).FirstOrDefaultAsync(x => x.ClienteId == id);
+            if (cliente != null)
+            {
+                ClienteDetalleDto clienteResumenDto = new()
+                {
+                    
+                    Nombres = cliente.Nombres,
+                    Documento = cliente.Documento,
+                    Email = cliente.Email,
+                    TipoDocumento = cliente.TiposDocumento.Nombre,
+                    Estado = ObtenerEstadoNombre(cliente.Estado),
+                    Cumpleanios = cliente.Cumpleanios,
+                    Edad = cliente.Edad
+                };
+                return clienteResumenDto;
+            }
+            return null;
+        }
+
+        public async Task<ClienteDto> ObtenerClienteDtoPorId(int? id)
+        {
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
+            var cliente = await _context.Clientes.Include(x => x.TiposDocumento).FirstOrDefaultAsync(x => x.ClienteId == id);
+            if (cliente != null)
+            {
+                ClienteDto clienteDto = new()
+                {
+                    ClienteId = cliente.ClienteId,
+                    Nombres = cliente.Nombres,
+                    Documento = cliente.Documento,
+                    Email = cliente.Email,
+                    TipoDocumentoId = cliente.TipoDocumentoId,
+                    Estado = cliente.Estado,
+                    Cumpleanios = cliente.Cumpleanios,
+                    Edad = cliente.Edad
+                };
+                return clienteDto;
+            }
+            return null;
         }
 
         public async Task<Cliente> ObtenerClientePorId(int? id)
@@ -39,10 +125,21 @@ namespace Eventualy.Business.Services
             return await _context.Clientes.Include(x => x.TiposDocumento).FirstOrDefaultAsync(x => x.ClienteId == id);
         }
 
-        public void Editar(Cliente cliente)
+        public void Editar(ClienteDto clienteDto)
         {
-            if (cliente == null)
-                throw new ArgumentNullException(nameof(cliente));
+            if (clienteDto == null)
+                throw new ArgumentNullException(nameof(clienteDto));
+            Cliente cliente = new()
+            {
+                ClienteId = clienteDto.ClienteId,
+                Nombres = clienteDto.Nombres,
+                Documento = clienteDto.Documento,
+                TipoDocumentoId = clienteDto.TipoDocumentoId.Value,
+                Edad = clienteDto.Edad.Value,
+                Email = clienteDto.Email,
+                Estado = clienteDto.Estado,
+                Cumpleanios = clienteDto.Cumpleanios
+            };
             _context.Update(cliente);
         }
 

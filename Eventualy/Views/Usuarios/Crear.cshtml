@@ -1,5 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Eventualy.Business.Dtos.Usuarios.UsuarioDto
 @{
+    Layout = null;
 }
+<form asp-action="Crear" autocomplete="off" id="formulario" onsubmit="return jQueryAjaxPost(this,'Crear usuario', '¿Desea crear el usuario?');">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger error"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmarPassword" class="control-label"></label>
+        <input asp-for="ConfirmarPassword" class="form-control" />
+        <span asp-validation-for="ConfirmarPassword" class="text-danger error"></span>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 offset-md-3">
+            <input type="submit" value="Guardar" class="btn btn-primary btn-block" />
+        </div>
+    </div>
+</form>
+<script src="~/js/site.js"></script>
+@await Html.PartialAsync("_ValidationScriptsPartial")

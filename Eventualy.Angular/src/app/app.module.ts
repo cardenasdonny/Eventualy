@@ -5,11 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GestionEmpleadosComponent } from './components/gestion-empleados/gestion-empleados.component';
 import { RegistrarEmpleadoComponent } from './components/gestion-empleados/registrar-empleado/registrar-empleado.component';
-
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ListarEmpleadoComponent } from './components/gestion-empleados/listar-empleado/listar-empleado.component';
 import{FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { GestionEmpleadoService } from './services/gestion-empleado.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,8 +20,8 @@ import { GestionEmpleadoService } from './services/gestion-empleado.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule
+    ReactiveFormsModule
+
   ],
   providers: [GestionEmpleadoService],
   bootstrap: [AppComponent]

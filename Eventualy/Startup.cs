@@ -1,9 +1,11 @@
 using Eventualy.Business.Abstract;
 using Eventualy.Business.Services;
 using Eventualy.DAL;
+using Eventualy.Model.Entities.Usuarios;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +50,26 @@ namespace Eventualy
             );
             services.AddScoped<IClienteService, ClienteService >();
             services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
-            //services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+
+            //Indentity
+
+            services.AddIdentity<Usuario, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+              //.AddDefaultUI()
+              .AddDefaultTokenProviders() //para trabajar con la confirmación de email
+              .AddEntityFrameworkStores<AppDbContext>();
+              //.AddClaimsPrincipalFactory<UsuarioClaimsPrincipalFactory>();
+
+            //configuración del password
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 9;
+                options.User.RequireUniqueEmail = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

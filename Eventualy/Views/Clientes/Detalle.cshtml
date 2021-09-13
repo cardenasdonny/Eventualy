@@ -1,4 +1,4 @@
-﻿@model Eventualy.Model.Entities.Cliente
+﻿@model Eventualy.Business.Dtos.Clientes.ClienteDetalleDto
 @{
     Layout = null;
 }
@@ -13,9 +13,9 @@
     </div>
     <div class="form-group">
         <div class="col-md-12">
-            <label asp-for="TiposDocumento.Nombre" class="control-label"></label>
+            <label asp-for="TipoDocumento" class="control-label"></label>
             <br />
-            @Model.TiposDocumento.Nombre
+            @Model.TipoDocumento
         </div>
     </div>
     <div class="form-group">
@@ -32,7 +32,28 @@
             @Model.Email
         </div>
     </div>
-    
+    <div class="form-group">
+        <div class="col-md-12">
+            <label asp-for="Estado" class="control-label"></label>
+            <br />
+            @Model.Estado
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <label asp-for="Edad" class="control-label"></label>
+            <br />
+            @Model.Edad
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <label asp-for="Cumpleanios" class="control-label"></label>
+            <br />
+            @Model.Cumpleanios.ToString("dd/MM")
+        </div>
+    </div>
+
 </form>
 <script src="~/js/site.js"></script>
 @await Html.PartialAsync("_ValidationScriptsPartial")

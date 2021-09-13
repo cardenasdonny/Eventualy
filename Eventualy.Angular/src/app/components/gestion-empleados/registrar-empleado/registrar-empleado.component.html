@@ -1,0 +1,13 @@
+<form [formGroup]="formularioRegistroEmpleado" (ngSubmit)="onSubmit()">
+    <input type="hidden" name="ClienteId" formControlName="ClienteId">
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-white" ><i class="fa fa-user-circle"></i></span>
+        <input name="Nombres" formControlName="Nombres" class="form-control" placeholder="Nombre del empleado">
+    </div>   
+       
+    <br>
+    <div class="form-group ">
+        <button class="btn btn-success btn-lg btn-block " [disabled]="formularioRegistroEmpleado.invalid" type="submit "> <i class="fa fa-save "></i> Guardar</button>
+    </div>
+
+</form>

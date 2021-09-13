@@ -1,4 +1,4 @@
-﻿@model Eventualy.Model.Entities.Cliente
+﻿@model Eventualy.Business.Dtos.Clientes.ClienteDto
 @{ 
     Layout = null;
 }
@@ -38,6 +38,21 @@
             <input type="text" asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
+    </div>
+
+    <div class="form-group">
+
+        <label asp-for="Edad" class="control-label"></label>
+        <input type="number" asp-for="Edad" class="form-control" />
+        <span asp-validation-for="Edad" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+
+        <label asp-for="Cumpleanios" class="control-label"></label>
+        <input type="date" asp-for="Cumpleanios" class="form-control" />
+        <span asp-validation-for="Cumpleanios" class="text-danger"></span>
+
     </div>
     <div class="form-group">
         <div class="col-md-4">

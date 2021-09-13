@@ -1,4 +1,5 @@
 ﻿using Eventualy.Business.Abstract;
+using Eventualy.Business.Dtos.Clientes;
 using Eventualy.Model.Entities;
 using Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +49,9 @@ namespace Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear(Cliente cliente)
+        public async Task<IActionResult> Crear(ClienteDto clienteDto)
         {
-            if (cliente == null)
+            if (clienteDto == null)
             {
                 return NotFound();
             }
@@ -59,7 +60,7 @@ namespace Controllers
             {
                 try
                 {
-                    _clienteService.Crear(cliente);
+                    _clienteService.Crear(clienteDto);
                     var guardar = await _clienteService.GuardarCambios();
                     if (guardar)
                     {
@@ -80,7 +81,7 @@ namespace Controllers
             // si el modelo tiene errores en las validaciones
             ViewBag.Titulo = "Crear cliente";
             ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
-            return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Crear", cliente) });
+            return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Crear", clienteDto) });
         }
 
         [HttpGet]
@@ -90,9 +91,9 @@ namespace Controllers
             {
                 try
                 {
-                    var cliente = await _clienteService.ObtenerClientePorId(id.Value);
-                    if (cliente != null)
-                        return View(cliente);
+                    var clienteDetalleDto = await _clienteService.ObtenerClienteDetalleDto(id.Value);
+                    if (clienteDetalleDto != null)
+                        return View(clienteDetalleDto);
                     else
                         return Json(new { isValid = false, tipoError = "error", mensaje = "Error al consultar el registro" });
                 }
@@ -111,7 +112,7 @@ namespace Controllers
             {
                 try
                 {
-                    var cliente = await _clienteService.ObtenerClientePorId(id.Value);
+                    var cliente = await _clienteService.ObtenerClienteDtoPorId(id.Value);
                     if (cliente != null)
                     {
                         ViewBag.Titulo = "Editar cliente";
@@ -130,15 +131,15 @@ namespace Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> Editar(int? id, Cliente cliente)
+        public async Task<IActionResult> Editar(int? id, ClienteDto clienteDto)
         {
-            if (id != cliente.ClienteId)
+            if (id != clienteDto.ClienteId)
                 return Json(new { isValid = false, tipoError = "error", mensaje = "Error interno" });
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _clienteService.Editar(cliente);
+                    _clienteService.Editar(clienteDto);
                     var editar = await _clienteService.GuardarCambios();
                     if (editar)
                         return Json(new { isValid = true, operacion = "editar" });
@@ -154,7 +155,7 @@ namespace Controllers
             // si el modelo tiene errores en las validaciones
             ViewBag.Titulo = "Editar cliente";
             ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
-            return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Editar", cliente) });
+            return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Editar", clienteDto) });
         }
 
         [HttpGet]
@@ -187,7 +188,7 @@ namespace Controllers
             {
                 try
                 {
-                    var cliente = await _clienteService.ObtenerClientePorId(id.Value);
+                    var cliente = await _clienteService.ObtenerClienteDtoPorId(id.Value);
                     if (cliente != null)
                     {
                         //cliente.Estado = !cliente.Estado;
