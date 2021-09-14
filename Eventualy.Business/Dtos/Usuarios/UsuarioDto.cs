@@ -14,7 +14,7 @@ namespace Eventualy.Business.Dtos.Usuarios
         [Required(ErrorMessage = "El email es requerido")]
         [Display(Name = "Email", Order = -9,
         Prompt = "Ingrese el email", Description = "Email")]
-        [EmailAddress(ErrorMessage = "Email")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
 
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

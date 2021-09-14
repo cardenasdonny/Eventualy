@@ -11,5 +11,6 @@ namespace Eventualy.Business.Abstract
     {
         Task<string> CrearUsuario(UsuarioDto usuarioDto);
         Task<UsuarioResumenDto> ObtenerUsuarioDtoPorEmail(string email);
+        Task<IEnumerable<UsuarioResumenDto>> ObtenerListaUsuarios();
     }
 }

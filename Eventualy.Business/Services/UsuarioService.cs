@@ -2,6 +2,7 @@
 using Eventualy.Business.Dtos.Usuarios;
 using Eventualy.Model.Entities.Usuarios;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,24 @@ namespace Eventualy.Business.Services
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        public async Task<IEnumerable<UsuarioResumenDto>> ObtenerListaUsuarios()
+        {
+            List<UsuarioResumenDto> listaUsuariosResumenDtos = new();
+            var usuarios = await _userManager.Users.ToListAsync();
+            usuarios.ForEach(u =>
+            {
+                UsuarioResumenDto usuarioResumenDto = new()
+                {
+                    UsuarioId = u.Id,
+                    Correo = u.Email,
+                    Estado = u.Estado ? "Habilitado" : "Deshabilitado",
+                    Rol = "Sin rol"
+                };
+                listaUsuariosResumenDtos.Add(usuarioResumenDto);
+            });
+            return listaUsuariosResumenDtos;
         }
 
         public async Task<UsuarioResumenDto>ObtenerUsuarioDtoPorEmail(string email)
