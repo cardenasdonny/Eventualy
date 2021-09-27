@@ -1,1 +1,24 @@
-<p>listar-empleado works!</p>
+<table class="table table-hover">
+    <thead>
+            <tr>
+              <th scope="col">Nombres</th>
+              <th scope="col">Email</th>
+              <th scope="col">Documento</th>
+              <th scope="col">Estado</th>
+              <th scope="col">TipoDocumentoId</th>
+              <th scope="col">Edad</th>
+            </tr>
+          </thead>
+<tbody>
+    
+    <tr *ngFor="let empleado of gestionEmpleadoService.listaEmpleado">
+        <td (click)="llenarFormularioEmpleado(empleado)">{{empleado.Nombres}}</td>            
+        <td (click)="llenarFormularioEmpleado(empleado)">{{empleado.Email}}</td>
+        <td (click)="llenarFormularioEmpleado(empleado)">{{empleado.Documento}}</td>  
+        <td (click)="llenarFormularioEmpleado(empleado)">{{empleado.Estado}}</td> 
+        <td (click)="llenarFormularioEmpleado(empleado)">{{empleado.TipoDocumentoId}}</td> 
+        <td (click)="llenarFormularioEmpleado(empleado)">{{empleado.Edad}}</td>           
+    </tr>
+</tbody>
+</table>
+

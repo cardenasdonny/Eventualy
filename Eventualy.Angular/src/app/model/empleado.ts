@@ -6,5 +6,4 @@ export interface Empleado {
   Estado:boolean;
   TipoDocumentoId:number;
   Edad:number;
-
 }

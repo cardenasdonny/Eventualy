@@ -51,7 +51,7 @@
                                 <td>
                                     <a class="text-success" href="javascript:mostrarModal('@Url.Action("Detalle","Usuarios",new {id=usuario.UsuarioId},Context.Request.Scheme)','Detalle usuario')"><i title="Detalle" class="fas fa-search"></i></a> |
 
-                                    <a href="javascript:mostrarModal('@Url.Action("Editar","Usuario",new {id=usuario.UsuarioId},Context.Request.Scheme)','Editar usuario')"><i title="Editar" class="fas fa-edit"></i></a> |
+                                    <a href="javascript:mostrarModal('@Url.Action("Editar","Usuarios",new {id=usuario.UsuarioId},Context.Request.Scheme)','Editar usuario')"><i title="Editar" class="fas fa-edit"></i></a> |
 
                                     @if (usuario.Estado.Equals("Habilitado"))
                                     {

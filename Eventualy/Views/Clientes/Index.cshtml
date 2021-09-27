@@ -10,9 +10,11 @@
                 <h2>Gestión de <b>@ViewBag.Titulo</b></h2>
             </div>
             <br />
+            @if (!User.IsInRole("Usuario")) { 
             <div class="col-md-7">
                 <a onclick="mostrarModal('@Url.Action("Crear","Clientes",null,Context.Request.Scheme)','Crear cliente')" class="btn btn-success">Crear Cliente </a>
             </div>
+            }
             @if (Model == null || Model.Count() == 0)
             {
                 <p>No existen clientes</p>

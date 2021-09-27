@@ -2,6 +2,7 @@
 using Eventualy.Business.Dtos.Clientes;
 using Eventualy.Model.Entities;
 using Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -21,13 +22,14 @@ namespace Controllers
             _clienteService = clienteService; //inyectamos la interface IclienteService
             _tipoDocumentoService = tipoDocumentoService;
         }
+        [Authorize(Roles = "Administrador, Usuario")]
         public async Task<IActionResult> Index()
         {
             ViewBag.Titulo = "Clientes";
             var clientes = await _clienteService.ObtenerClientes();
             return View(clientes);
         }
-
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         [NoDirectAccess]
         public async Task<IActionResult> Crear()
@@ -47,7 +49,7 @@ namespace Controllers
             
 
         }
-
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public async Task<IActionResult> Crear(ClienteDto clienteDto)
         {
@@ -83,7 +85,7 @@ namespace Controllers
             ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
             return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Crear", clienteDto) });
         }
-
+        [Authorize(Roles = "Administrador, Usuario")]
         [HttpGet]
         public async Task<IActionResult> Detalle(int? id)
         {
@@ -105,6 +107,7 @@ namespace Controllers
             }
             return Json(new { isValid = false, tipoError = "error", mensaje = "Error al consultar el registro" });
         }
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public async Task<IActionResult> Editar(int? id)
         {
@@ -130,6 +133,7 @@ namespace Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public async Task<IActionResult> Editar(int? id, ClienteDto clienteDto)
         {
@@ -157,7 +161,7 @@ namespace Controllers
             ViewBag.TiposDocumento = new SelectList(await _tipoDocumentoService.ObtenerTiposDocumento(), "TipoDocumentoId", "Nombre");
             return Json(new { isValid = false, tipoError = "warning", error = "Debe diligenciar los campos requeridos", html = Helper.RenderRazorViewToString(this, "Editar", clienteDto) });
         }
-
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public async Task<IActionResult> Eliminar(int? id)
         {
@@ -180,7 +184,7 @@ namespace Controllers
             }
             return NotFound();
         }
-
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public async Task<IActionResult> CambiarEstado(int? id)
         {

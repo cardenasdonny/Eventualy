@@ -10,15 +10,20 @@ namespace Controllers
     [Authorize]
     public class AdminController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
-              
+        [Authorize(Roles ="Administrador, Usuario")]
         public IActionResult Dashboard()
         {
             
+            return View();
+        }
+        public IActionResult NoAutorizado()
+        {
             return View();
         }
     }

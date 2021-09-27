@@ -8,6 +8,7 @@ import { RegistrarEmpleadoComponent } from './components/gestion-empleados/regis
 import { ListarEmpleadoComponent } from './components/gestion-empleados/listar-empleado/listar-empleado.component';
 import{FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { GestionEmpleadoService } from './services/gestion-empleado.service';
+import{HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GestionEmpleadoService } from './services/gestion-empleado.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
 
   ],
   providers: [GestionEmpleadoService],

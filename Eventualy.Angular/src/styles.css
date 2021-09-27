@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+input.ng-touched.ng-invalid{ /* los input que no cumplan con la validacion, su borde será rojo*/
+    border-color: #dc3545;
+}
+
+input.ng-valid{
+    border-color: #2889a7; /* los input que  cumplan con la validación, su borde será azul*/
+}
+
+.blue-icon{
+    color: #2889a7;  /* iconos azules*/
+}
+.red-icon{
+    color: #dc3545; /* iconos rojos*/
+}

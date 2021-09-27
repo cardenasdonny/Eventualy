@@ -1,4 +1,6 @@
 ﻿using Eventualy.Model.Entities;
+using Eventualy.Model.Entities.Usuarios;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,26 @@ namespace Eventualy.DAL
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TipoDocumento>().HasData(
+            var usuario = new Usuario
+            {
+                Id = "0h174cfb–4418–1c3e-a2bf-89f716w72cu3",
+                Email = "cardenasdonny@gmail.com",
+                NormalizedEmail = "CARDENASDONNY@GMAIL.COM",                
+                UserName = "cardenasdonny@gmail.com",
+                NormalizedUserName = "CARDENASDONNY@GMAIL.COM",
+                Estado = true
+            };
+            //encriptamos el password
+            PasswordHasher<Usuario> ph = new();
+            usuario.PasswordHash = ph.HashPassword(usuario, "1234567890");
+            //guardamos el usuario
+
+            modelBuilder.Entity<Usuario>().HasData(usuario);
+
+
+
+
+           modelBuilder.Entity<TipoDocumento>().HasData(
                 new TipoDocumento
                 {
                     TipoDocumentoId = 1,

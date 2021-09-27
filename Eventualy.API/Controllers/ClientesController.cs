@@ -1,4 +1,5 @@
 ﻿using Eventualy.Business.Abstract;
+using Eventualy.Business.Dtos.Clientes;
 using Eventualy.Model.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,22 +22,22 @@ namespace Eventualy.API.Controllers
             _clienteService = clienteService;
             _tipoDocumentoService = tipoDocumentoService;
         }
-        //[HttpGet]
-        //public async Task<IEnumerable<Cliente>> ObtenerClientes()
-        //{
-        //    try
-        //    {
-        //        var empleados = await _clienteService.ObtenerClientes();
-        //        return empleados ;
+        [HttpGet]
+        public async Task<IEnumerable<ClienteResumenDto>> ObtenerClientes()
+        {
+            try
+            {
+                var empleados = await _clienteService.ObtenerClientes();
+                return empleados;
 
-        //    }
-        //    catch (Exception)
-        //    {
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
+                throw;
+            }
 
-        //}
+        }
 
         // GET: api/Empleados/5
         [HttpGet("{id}")]
@@ -51,6 +52,21 @@ namespace Eventualy.API.Controllers
 
             return empleado;
         }
+
+        // POST: api/Empleados
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<ClienteDto>> PostEmpleado(ClienteDto ClienteDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _clienteService.Crear(ClienteDto);
+                await _clienteService.GuardarCambios();
+                return CreatedAtAction("GetEmpleado", new { id = ClienteDto.ClienteId }, ClienteDto);
+            }
+            return null;
+        }
+
     }
     
     

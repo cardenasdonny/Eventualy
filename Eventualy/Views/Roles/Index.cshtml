@@ -1,0 +1,73 @@
+﻿@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+@section Styles{
+
+}
+
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <div>
+                <br />
+                <h2><b>@ViewBag.Titulo</b></h2>
+            </div>
+
+            <div>
+                <a onclick="mostrarModal('@Url.Action("Crear","Roles",null,Context.Request.Scheme)','Crear rol')" class="btn btn-success">Crear Rol </a>
+            </div>
+            <br />
+            @if (Model == null || Model.Count == 0)
+            {
+
+
+                <p>No existen roles</p>
+            }
+            else
+            {
+                <table class="table" id="tabla">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rol
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rol in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @rol.Name
+                                </td>
+
+                                <td>
+                                    <a class="text-primary" href="javascript:mostrarModal('@Url.Action("Editar","Roles",new {id=rol.Id},Context.Request.Scheme)','Editar rol')"><i title="Editar" class="fas fa-edit"></i></a>
+
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/site.js"></script>
+
+    <script src="~/js/tabla.js"></script>
+    <script>
+        @if(TempData["Accion"]!=null && TempData["Accion"].ToString().Equals("Guardar"))
+        {
+            <text>
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.success('@TempData["Mensaje"]');
+
+            </text>
+        }
+    </script>
+
+}
