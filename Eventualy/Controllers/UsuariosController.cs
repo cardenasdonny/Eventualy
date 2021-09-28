@@ -7,9 +7,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Controllers
@@ -20,13 +25,15 @@ namespace Controllers
         private readonly SignInManager<Usuario> _signInManager;
         private readonly UserManager<Usuario> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
 
-        public UsuariosController(IUsuarioService usuarioService, SignInManager<Usuario> signInManager, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager)
+        public UsuariosController(IUsuarioService usuarioService, SignInManager<Usuario> signInManager, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _usuarioService = usuarioService;
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _configuration = configuration;
         }
         [Authorize(Roles ="Administrador")]
         public async Task<IActionResult> Index()
@@ -139,6 +146,109 @@ namespace Controllers
 
         }
 
+        public IActionResult OlvidePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> OlvidePassword(RecuperarPasswordDto recuperarPasswordDto)
+        {
+            if (ModelState.IsValid)
+            {
+                //buscar el usuario a traves del correo
+                var usuario = await _userManager.FindByEmailAsync(recuperarPasswordDto.Email);
+                if (usuario != null)
+                {
+                    //generaramos un token
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
+                    //Creamos un link para resetear el password
+                    var passwordResetLink = Url.Action("ResetearPassword", "Usuarios", new { email = recuperarPasswordDto.Email, token = token }, Request.Scheme);
+
+                    //Envio de email a traves de API (sendgrid)
+
+                    //configuramos el cliente
+                    var clienteCorreo = new SendGridClient(_configuration["Email:Key"]);
+
+                    //configuramos el mensaje
+
+                    var mensaje = new SendGridMessage
+                    {
+                        From = new EmailAddress(_configuration["Email:FromEmail"], _configuration["Email:FromName"]),
+                        Subject = "Eventuality - Recuperar contraseña",
+                        PlainTextContent = passwordResetLink,
+                        HtmlContent = "<h1>Haga clic en el link para recuperar la contraseña:<h1><br><br>" + passwordResetLink
+                    };
+                    mensaje.AddTo(recuperarPasswordDto.Email);
+                    mensaje.SetClickTracking(false, false);
+                    var resultado = await clienteCorreo.SendEmailAsync(mensaje);
+
+                    if (resultado.IsSuccessStatusCode)
+                        return RedirectToAction("Login");
+
+
+
+                    /*
+                    //enviamos el correo por SMTP
+                    MailMessage mensaje = new();
+                    mensaje.To.Add(recuperarPasswordDto.Email); //destinarario
+                    mensaje.Subject = "Eventuality - recuperar password"; // Asunto
+                    mensaje.Body = passwordResetLink; //cuerpo del correo
+                    mensaje.IsBodyHtml = false;
+                    mensaje.From = new MailAddress("pruebas@xofsystems.com", "Eventuality notificaciones");
+
+                    // configurar el servidor smtp
+                    SmtpClient smtpClient = new("smtp.gmail.com");
+                    smtpClient.Port = 587;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Credentials = new NetworkCredential("pruebas@xofsystems.com", "Tempo123!");
+
+                    try
+                    {
+                        smtpClient.Send(mensaje);
+                        return RedirectToAction("Login");
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }  
+                    */
+
+                }
+            }
+
+            return View(recuperarPasswordDto);
+        }
+
+        [HttpGet]
+        public IActionResult ResetearPassword(string token, string email)
+        {
+            if(token == null || email == null)
+            {
+                ModelState.AddModelError("", "Error de token o de email");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetearPassword(ResetearPasswordDto resetearPasswordDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = await _userManager.FindByEmailAsync(resetearPasswordDto.Email);
+                if (usuario != null)
+                {
+                    //reseteamos el password
+                    var resultado = await _userManager.ResetPasswordAsync(usuario, resetearPasswordDto.Token, resetearPasswordDto.Password);
+                    if (resultado.Succeeded)
+                        return RedirectToAction("Login");
+                }
+
+            }
+            return View(resetearPasswordDto);
+        }
 
     }
 }
